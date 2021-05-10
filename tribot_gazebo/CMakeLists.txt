@@ -26,7 +26,7 @@ include_directories(
 )
 
 install(
-  DIRECTORY launch
+  DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME}
 )
 

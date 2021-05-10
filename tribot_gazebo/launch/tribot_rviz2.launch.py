@@ -12,13 +12,12 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
     pkg_tribot_gazebo = get_package_share_directory('tribot_gazebo')
+    default_rviz_config_path = os.path.join(pkg_tribot_gazebo, 'rviz', 'tribot.rviz')
 
-    # Gazebo Launch
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, 'launch', 'gazebo.launch.py')
+            os.path.join(pkg_tribot_gazebo, 'launch', 'tribot_gazebo.launch.py')
         )
     )
 
@@ -26,17 +25,14 @@ def generate_launch_description():
     rviz = Node(
         package='rviz2',
         executable='rviz2',
-        #arguments=['-d', os.path.join(pkg_gazebo_ros, 'rviz', 'tribot_gazebo2.rviz')],
-        condition=IfCondition(LaunchConfiguration('rviz'))
+        name='rviz2',
+        output='screen',
+        arguments=['-d', LaunchConfiguration('rvizconfig')]
     )
 
     return LaunchDescription([
-        #DeclareLaunchArgument(
-        #    'world'),
-        DeclareLaunchArgument(
-            'rviz',
-            default_value='true',
-            description='Open RViz.'),
+        DeclareLaunchArgument(name='rvizconfig', default_value=default_rviz_config_path,
+                              description='Absolute path to rviz config file'),
         gazebo,
-        rviz
+        rviz,
     ])
