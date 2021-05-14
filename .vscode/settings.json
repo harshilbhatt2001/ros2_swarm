@@ -1,0 +1,34 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/xacro/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/opencv_tests",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/opencv_tests/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/joint_state_publisher_gui",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/joint_state_publisher_gui/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/joint_state_publisher",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/joint_state_publisher/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/image_geometry/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/gazebo_ros/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/gazebo_msgs/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/cv_bridge/lib/python3.9/site-packages",
+        "/opt/ros2/foxy/lib/python3.9/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/xacro/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/opencv_tests",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/opencv_tests/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/joint_state_publisher_gui",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/joint_state_publisher_gui/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/build/joint_state_publisher",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/joint_state_publisher/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/image_geometry/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/gazebo_ros/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/gazebo_msgs/lib/python3.9/site-packages",
+        "/home/harshil/workspace/mrm/repos/underlay_ws/install/cv_bridge/lib/python3.9/site-packages",
+        "/opt/ros2/foxy/lib/python3.9/site-packages"
+    ],
+    "files.associations": {
+        "*.ipp": "cpp",
+        "condition_variable": "cpp"
+    }
+}

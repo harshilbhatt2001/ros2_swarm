@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/opt/ros2/foxy/include/**",
+                "/home/harshil/workspace/mrm/repos/ros2_ws/src/motor_driver/include/**",
+                "/home/harshil/workspace/mrm/repos/ros2_ws/src/sensor-interfaces/include/**",
+                "/home/harshil/workspace/mrm/repos/ros2_ws/src/tribot_description/include/**",
+                "/home/harshil/workspace/mrm/repos/ros2_ws/src/tribot_gazebo/include/**",
+                "/home/harshil/workspace/mrm/repos/ros2_ws/src/tribot_gazebo_plugins/include/**",
+                "/home/harshil/workspace/mrm/repos/underlay_ws/**",
+                "/usr/include/**",
+                "/usr/include/gazebo-11/**",
+                "/usr/include/sdformat-9.5/sdf/**",
+                "/usr/include/ignition/**",
+                "/usr/include/ignition/math6/**",
+                "/usr/include/ignition/common3/**",
+                "/usr/include/ignition/msgs5/**",
+                "/usr/include/ignition/transport8/**"
+            ],
+            "name": "ROS",
+            "compileCommands": "/home/harshil/workspace/mrm/repos/underlay_ws/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
