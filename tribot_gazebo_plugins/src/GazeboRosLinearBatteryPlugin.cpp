@@ -65,6 +65,26 @@ void GazeboRosLinearBatteryPlugin::Load(physics::ModelPtr model, sdf::ElementPtr
         impl_->update_period_ = 0.0;
     }
 
+    std::string link_name = _sdf->Get<std::string>("link_name");
+    this->link = this->model->GetLink(link_name);
+
+    this->e0    = _sdf->Get<double>("open_circuit_voltage_constant_coef");
+    this->e1    = _sdf->Get<double>("open_circuit_voltage_linear_coef");
+    this->q0    = _sdf->Get<double>("initial_charge");
+    //this->qt    = _sdf->Get<double>("charge_rate");
+    this->c     = _sdf->Get<double>("capacity");
+    this->r     = _sdf->Get<double>("resistance");
+    this->tau   = _sdf->Get<double>("smooth_current_tau");
+
+    std::string battery_name = _sdf->Get<std::string>("battery_name");
+    
+    // Create battery
+    if (this->link->BatteryCount() > 0)
+    {
+        this->battery = this->link->Battery(battery_name);
+    }
+
+
     impl_->last_update_time_ = model->GetWorld()->SimTime();
 
     // Battery State Publisher
