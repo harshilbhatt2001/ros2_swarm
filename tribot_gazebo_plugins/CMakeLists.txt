@@ -17,7 +17,7 @@ find_package(std_msgs REQUIRED)
 
 # gazebo_ros_linear_battery
 add_library(gazebo_ros_linear_battery SHARED
-  src/LinearBatteryPlugin.cpp
+  src/GazeboRosLinearBatteryPlugin.cpp
 )
 
 target_include_directories(gazebo_ros_linear_battery PUBLIC include)

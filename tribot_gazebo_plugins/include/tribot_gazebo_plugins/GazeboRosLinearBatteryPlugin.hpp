@@ -22,13 +22,13 @@ class GAZEBO_VISIBLE GazeboRosLinearBatteryPlugin : public ModelPlugin
 public: 
     GazeboRosLinearBatteryPlugin();
     virtual ~GazeboRosLinearBatteryPlugin();
-    virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
+    void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
     virtual void Init();
     virtual void Reset();
 
 private: 
     double OnUpdateVoltage(const common::BatteryPtr &_battery);
-    void PublishBatteryState();
+    void PublishBatteryState(const common::UpdateInfo &info);
 
 protected: 
     event::ConnectionPtr updateConnection;
@@ -81,13 +81,24 @@ private:
 class GazeboRosLinearBatteryPluginPrivate
 {
 public:
+    /// \brief Callback to be called at every simulation iteration
+    void OnUpdate(const common::UpdateInfo &info);
     /// \brief Node for ros communication
     gazebo_ros::Node::SharedPtr ros_node_;
     /// \brief Publish for battery state message
     rclcpp::Publisher<sensor_msgs::msg::BatteryState>::SharedPtr battery_state_pub_;
     /// \brief Battery state modified after each update
     sensor_msgs::msg::BatteryState::SharedPtr battery_state_msg_;
-    
+    /// \brief Namespace for ROS node
+    std::string robot_namespace_;
+    /// \brief Connection for callback on update world
+    rclcpp::TimerBase::SharedPtr update_timer_;
+    /// \brief period in seconds
+    double update_period_;
+    /// \brief Keep last time an update was published
+    common::Time last_update_time_;
+    /// \brief Pointer to update connection event
+    event::ConnectionPtr update_connection_;
     
 
 
