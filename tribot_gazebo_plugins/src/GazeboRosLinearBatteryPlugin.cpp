@@ -40,8 +40,6 @@ GazeboRosLinearBatteryPlugin::~GazeboRosLinearBatteryPlugin()
 
 void GazeboRosLinearBatteryPlugin::Load(physics::ModelPtr model, sdf::ElementPtr _sdf)
 {
-    // TODO: Fix
-    //LinearBatteryPlugin::Load(model, _sdf);
     const gazebo_ros::QoS &qos = impl_->ros_node_->get_qos();
 
 
@@ -56,7 +54,7 @@ void GazeboRosLinearBatteryPlugin::Load(physics::ModelPtr model, sdf::ElementPtr
     {
         RCLCPP_INFO(impl_->ros_node_->get_logger(), "Missing <update_rate>, defaults to %f", update_rate);
     } else {
-        update_rate = sdf->GetElement("update_rate")->Get<double>();
+        update_rate = sdf->GetElement("update_rate")->Get<double>("update_rate");
     }
 
     if (update_rate > 0.0) {
@@ -87,6 +85,7 @@ void GazeboRosLinearBatteryPlugin::Load(physics::ModelPtr model, sdf::ElementPtr
 
     impl_->last_update_time_ = model->GetWorld()->SimTime();
 
+    /*
     // Battery State Publisher
     impl_->battery_state_pub_ = impl_->ros_node_->create_publisher<sensor_msgs::msg::BatteryState>(
         "battery_state", qos.get_publisher_qos("battery_state", rclcpp::QoS(1000)));
@@ -94,7 +93,9 @@ void GazeboRosLinearBatteryPlugin::Load(physics::ModelPtr model, sdf::ElementPtr
     // callback on every iteration
     impl_->update_connection_ = event::Events::ConnectWorldUpdateBegin(
         std::bind(&GazeboRosLinearBatteryPlugin::PublishBatteryState, impl_.get(), std::placeholders::_1));
-
+    */
+   // Specify custom Update function
+   this->battery->SetUpdateFunc(std::bind(&GazeboRosLinearBatteryPlugin::OnUpdateVoltage, this, std::placeholders::_1));
 }
 
 void GazeboRosLinearBatteryPlugin::Init()
@@ -136,30 +137,37 @@ double GazeboRosLinearBatteryPlugin::OnUpdateVoltage(const common::BatteryPtr &_
         this->q = this->q + GZ_SEC_TO_HOUR(dt + this->qt);
     }
 
-    this->sim_time_now = this->world->SimTime().Double();
+    this->sim_time_now = this->world->SimTime();
 
     this->et = this->e0 + this->e1 * (1 - this->q / this->c) - this->r * this->ismooth;
 
     // TODO: Turn off bot when battery is 0 
-}
+    // Turn off the motor
+    if (this->q <= 0)
+    {
+        this->sim_time_now = this->world->SimTime();
+        this->q = 0;
+        //TODO: Motor control 
+    }
+    else if (this->q >= this->c)
+    {
+        this->q = this-> c;
+    }
 
-void GazeboRosLinearBatteryPlugin::PublishBatteryState(const common::UpdateInfo &info)
-{
-    common::Time current_time = info.simTime;
 
     // Negative sim time (when world is simulated)
-    if (current_time < impl_->last_update_time_)
+    if (this->sim_time_now < impl_->last_update_time_)
     {
         RCLCPP_INFO(impl_->ros_node_->get_logger(), "Negative sim time difference detected.");
-        impl_->last_update_time_ = current_time;
+        impl_->last_update_time_ = this->sim_time_now;
     }
 
     // Check period
-    double seconds_since_last_update = (current_time - impl_->last_update_time_).Double();
-    if (seconds_since_last_update < impl_->update_period_)
-    {
-        return;
-    }
+    // double seconds_since_last_update = (this->sim_time_now - impl_->last_update_time_).Double();
+    // if (seconds_since_last_update < impl_->update_period_)
+    // {
+    //     return;
+    // }
 
     // Populate Message
     sensor_msgs::msg::BatteryState battery_state;
@@ -174,7 +182,12 @@ void GazeboRosLinearBatteryPlugin::PublishBatteryState(const common::UpdateInfo 
     impl_->battery_state_pub_->publish(battery_state);
 
     // update time
-    impl_->last_update_time_ = current_time;
+    impl_->last_update_time_ = this->sim_time_now;
+
+}
+
+void GazeboRosLinearBatteryPlugin::PublishBatteryState(const common::UpdateInfo &info)
+{
 }
 
 } // namespace gazebo

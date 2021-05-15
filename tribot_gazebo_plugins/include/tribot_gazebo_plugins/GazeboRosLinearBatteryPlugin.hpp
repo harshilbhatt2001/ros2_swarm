@@ -71,7 +71,7 @@ protected: double qt;
 
 protected: bool charging;
 
-protected: double sim_time_now;
+protected: common::Time sim_time_now;
 
 private:
     std::unique_ptr<GazeboRosLinearBatteryPluginPrivate> impl_;
@@ -99,6 +99,8 @@ public:
     common::Time last_update_time_;
     /// \brief Pointer to update connection event
     event::ConnectionPtr update_connection_;
+    /// \brief Pointer to battery
+    common::BatteryPtr battery;
     
 
 
