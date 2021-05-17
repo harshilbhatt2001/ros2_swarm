@@ -189,5 +189,5 @@ double GazeboRosLinearBatteryPlugin::OnUpdateVoltage(const common::BatteryPtr &_
 void GazeboRosLinearBatteryPlugin::PublishBatteryState(const common::UpdateInfo &info)
 {
 }
-
+GZ_REGISTER_MODEL_PLUGIN(GazeboRosLinearBatteryPlugin)
 } // namespace gazebo
