@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin python3
 import sys
 import os
 import rclpy
@@ -35,7 +35,7 @@ if len(sys.argv) < 1:
     print('usage: ros2 run tribot_gazebo inject_entity.py -- foo.urdf')
     sys.exit(1)
 
-xacro_path = os.path.join(get_package_share_directory('tribot_description'), 'urdf', 'tribot.urdf.xacro')
+xacro_path = os.path.join(get_package_share_directory('tribot_description'), 'urdf', 'tribot.urdf')
 
 doc = xacro.parse(open(xacro_path))
 xacro.process_doc(doc)

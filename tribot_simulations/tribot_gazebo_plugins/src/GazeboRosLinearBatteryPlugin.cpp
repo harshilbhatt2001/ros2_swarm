@@ -184,6 +184,8 @@ double GazeboRosLinearBatteryPlugin::OnUpdateVoltage(const common::BatteryPtr &_
     // update time
     impl_->last_update_time_ = this->sim_time_now;
 
+    return et;
+
 }
 
 void GazeboRosLinearBatteryPlugin::PublishBatteryState(const common::UpdateInfo &info)

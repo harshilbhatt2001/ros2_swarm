@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 find_package(gazebo_dev REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(gazebo_ros REQUIRED)
@@ -14,6 +15,9 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/PowerLoad.srv"
+)
 
 # gazebo_ros_linear_battery
 add_library(gazebo_ros_linear_battery SHARED
@@ -29,14 +33,30 @@ ament_target_dependencies(gazebo_ros_linear_battery
 )
 ament_export_libraries(gazebo_ros_linear_battery)
 
-install(DIRECTORY include/
-        DESTINATION include)
-
-install(TARGETS
-  gazebo_ros_linear_battery
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
+## gazebo_ros_consumer_battery
+#add_library(gazebo_ros_consumer_battery SHARED
+#  src/RosBatteryConsumerPlugin.cpp
+#)
+#
+#target_include_directories(gazebo_ros_consumer_battery PUBLIC include)
+#ament_target_dependencies(gazebo_ros_consumer_battery
+#  "gazebo_dev"
+#  "gazebo_ros"
+#  "rclcpp"
+#  "sensor_msgs"
+#  "std_msgs"
+#)
+#ament_export_libraries(gazebo_ros_consumer_battery)
+#
+#
+#install(DIRECTORY include/
+#        DESTINATION include)
+#
+#install(TARGETS
+#  gazebo_ros_linear_battery
+#  ARCHIVE DESTINATION lib
+#  LIBRARY DESTINATION lib
+#  RUNTIME DESTINATION bin)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

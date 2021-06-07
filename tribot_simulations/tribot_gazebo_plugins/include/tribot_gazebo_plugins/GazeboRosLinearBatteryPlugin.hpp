@@ -99,8 +99,6 @@ public:
     common::Time last_update_time_;
     /// \brief Pointer to update connection event
     event::ConnectionPtr update_connection_;
-    /// \brief Pointer to battery
-    common::BatteryPtr battery;
     
 
 

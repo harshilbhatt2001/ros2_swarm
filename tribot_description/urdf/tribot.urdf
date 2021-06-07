@@ -250,6 +250,7 @@
     </plugin>
   </gazebo>
 
+<!--
   <!-- Does not load-->
   <link name="battery_link">
     <inertial>
@@ -259,10 +260,12 @@
     </inertial>
   </link>
 
-  <joint name="battery_joint" type="fixed">
-    <parent link="base_link" />
-    <child link="battery_link" />
-    <origin xyz="0 0 0.01" />
+  <joint name="battery_joint" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="battery_link"/>
+    <axis xyz="1 0 0"/>
+    <limit upper="0" lower="0" effort="0" velocity="0"/>
   </joint>
 
   <gazebo>
@@ -288,5 +291,5 @@
 
   </gazebo>
 
-
+-->
 </robot>

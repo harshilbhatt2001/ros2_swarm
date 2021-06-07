@@ -29,6 +29,7 @@
     ],
     "files.associations": {
         "*.ipp": "cpp",
-        "condition_variable": "cpp"
+        "condition_variable": "cpp",
+        "ostream": "cpp"
     }
 }

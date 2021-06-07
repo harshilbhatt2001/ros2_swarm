@@ -34,7 +34,11 @@ def generate_launch_description():
         output='screen',
         parameters=[os.path.join(pkg_share, 'config', 'ekf.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
-    
+
+    #gazebo = IncludeLaunchDescription(
+    #    get_package_share_directory(os.path.join('gazebo_ros','gazebo.launch.py'))
+    #)
+
     spawn_entity = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
@@ -50,8 +54,10 @@ def generate_launch_description():
                               description='Absolute path to robot urdf file'),
         DeclareLaunchArgument(name='gui', default_value='false',
                               description='Flag to enable joint_state_publisher_gui'),
+        ## libgazebo_ros_factory.so is used as it contains service call to /spawn_entity which libgazebo_ros_init.so does not 
         ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so'], output='screen'),
-        joint_state_publisher_node,
+        #gazebo,
+        #joint_state_publisher_node,
         robot_state_publisher_node,
         spawn_entity,
         #robot_localization_node,
