@@ -27,6 +27,11 @@ TribotFake::~TribotFake()
 {
 }
 
+void TribotFake::init_parameters()
+{
+    //TODO
+}
+
 void TribotFake::init_variables()
 {
     wheel_speed_cmd_[LEFT] = 0.0;

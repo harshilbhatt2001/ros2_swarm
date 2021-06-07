@@ -46,8 +46,12 @@ install(TARGETS ${EXEC_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include launch rviz
+install(DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY include/
+  DESTINATION include/
 )
 
 if(BUILD_TESTING)
