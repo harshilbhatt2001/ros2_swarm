@@ -33,8 +33,8 @@ private:
 
     ///\brief ROS subscribers
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
-  nav_msgs::msg::Odometry odom_;
-  sensor_msgs::msg::JointState joint_states_;
+    nav_msgs::msg::Odometry odom_;
+    sensor_msgs::msg::JointState joint_states_;
 
     double wheel_speed_cmd_[2];
     double goal_linear_velocity_;

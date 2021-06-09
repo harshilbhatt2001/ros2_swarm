@@ -1,10 +1,12 @@
 import os
+from posixpath import join, pardir
 
 import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, Command
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 
@@ -12,24 +14,30 @@ def generate_launch_description():
     rviz_dir = LaunchConfiguration(
         'rviz_dir',
         default=os.path.join(
-            get_package_share_directory('tribot_fake_node'), 'launch')),
+            get_package_share_directory('tribot_fake_node'), 'launch')
+    ),
+    
+    param_dir = LaunchConfiguration(
+        'param_dir',
+        default=os.path.join(
+            get_package_share_directory('tribot_fake_node'), 'param', 'tribot.yaml')
+    ),
     
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     urdf_file_name = 'tribot.urdf'
-    urdf = os.path.join(
-        get_package_share_directory('tribot_description'), 'urdf', urdf_file_name)
-    doc = xacro.parse(open(urdf))
+    doc = xacro.parse(open(os.path.join(
+        get_package_share_directory('tribot_description'), 'urdf', urdf_file_name)))
     xacro.process_doc(doc)
     urdf = doc.toxml()
-    
-    return LaunchDescription([
 
-        Node(
-            package='tribot_fake_node',
-            executable='tribot_fake_node',
-            output='screen'),
-        
-        Node(
+    joint_state_publisher_node = Node(
+            package='joint_state_publisher',
+            executable='joint_state_publisher',
+            name='joint_state_publisher',
+            output='screen',
+            )
+    
+    robot_state_publisher_node = Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
             name='robot_state_publisher',
@@ -37,6 +45,26 @@ def generate_launch_description():
             parameters=[
                 {'use_sim_time': use_sim_time},
                 {'robot_description': urdf}  
-            ]),
+            ])
+    
+    return LaunchDescription([
+        LogInfo(msg=['Execute Tribot Fake Node!']),
+
+        DeclareLaunchArgument(
+            'param_dir',
+            default_value=param_dir,
+            description='Specify parameters',
+        ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(get_package_share_directory('tribot_fake_node'), 'launch', 'rviz2.launch.py'))),
+
+        Node(
+            package='tribot_fake_node',
+            executable='tribot_fake_node',
+            output='screen'),
+
+        robot_state_publisher_node,
     ])
     

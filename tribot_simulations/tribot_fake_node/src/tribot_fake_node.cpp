@@ -30,6 +30,23 @@ TribotFake::~TribotFake()
 void TribotFake::init_parameters()
 {
     //TODO
+    // Declare parameters that may be set on this node
+    this->declare_parameter("joint_states_frame");
+    this->declare_parameter("odom_frame");
+    this->declare_parameter("base_frame");
+    this->declare_parameter("base_width");
+    this->declare_parameter("wheel_radius");
+
+    // Get parameters from yaml
+    this->get_parameter_or<std::string>(
+        "joint_states_frame", \
+        joint_states_.header.frame_id, \
+        "base_footprint");
+    this->get_parameter_or<std::string>("odom_frame", odom_.header.frame_id, "odom");
+    this->get_parameter_or<std::string>("base_frame", odom_.child_frame_id, "base_footprint");
+    this->get_parameter_or<double>("base_width", wheel_seperation_, 0.0);
+    this->get_parameter_or<double>("wheel_radius", wheel_radius_, 0.0);
+
 }
 
 void TribotFake::init_variables()
