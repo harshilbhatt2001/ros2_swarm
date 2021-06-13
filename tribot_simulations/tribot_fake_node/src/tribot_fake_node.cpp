@@ -29,13 +29,12 @@ TribotFake::~TribotFake()
 
 void TribotFake::init_parameters()
 {
-    //TODO
     // Declare parameters that may be set on this node
     this->declare_parameter("joint_states_frame");
     this->declare_parameter("odom_frame");
     this->declare_parameter("base_frame");
-    this->declare_parameter("base_width");
-    this->declare_parameter("wheel_radius");
+    this->declare_parameter("wheels.seperation");
+    this->declare_parameter("wheels.radius");
 
     // Get parameters from yaml
     this->get_parameter_or<std::string>(
@@ -44,8 +43,8 @@ void TribotFake::init_parameters()
         "base_footprint");
     this->get_parameter_or<std::string>("odom_frame", odom_.header.frame_id, "odom");
     this->get_parameter_or<std::string>("base_frame", odom_.child_frame_id, "base_footprint");
-    this->get_parameter_or<double>("base_width", wheel_seperation_, 0.0);
-    this->get_parameter_or<double>("wheel_radius", wheel_radius_, 0.0);
+    this->get_parameter_or<double>("wheels.seperation", wheel_seperation_, 0.31);
+    this->get_parameter_or<double>("wheels.radius", wheel_radius_, 0.10);
 
 }
 
@@ -68,8 +67,8 @@ void TribotFake::init_variables()
     odom_vel_[1] = 0.0;
     odom_vel_[2] = 0.0;
 
-    joint_states_.name.push_back("wheel_left_joint");
-    joint_states_.name.push_back("wheel_right_joint");
+    joint_states_.name.push_back("drivewhl_l_link");
+    joint_states_.name.push_back("drivewhl_r_link");
     joint_states_.position.resize(2, 0.0);
     joint_states_.velocity.resize(2, 0.0);
     joint_states_.effort.resize(2, 0.0);

@@ -1,5 +1,5 @@
 import os
-from posixpath import join, pardir
+from posixpath import join
 
 import xacro
 from ament_index_python.packages import get_package_share_directory
@@ -24,12 +24,14 @@ def generate_launch_description():
     ),
     
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+
     urdf_file_name = 'tribot.urdf'
     doc = xacro.parse(open(os.path.join(
         get_package_share_directory('tribot_description'), 'urdf', urdf_file_name)))
     xacro.process_doc(doc)
     urdf = doc.toxml()
 
+    ## TODO: Causes gazebo to crash
     joint_state_publisher_node = Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
@@ -43,9 +45,24 @@ def generate_launch_description():
             name='robot_state_publisher',
             output='screen',
             parameters=[
-                {'use_sim_time': use_sim_time},
-                {'robot_description': urdf}  
-            ])
+                    {'use_sim_time': use_sim_time},
+                    {'robot_description': urdf}  
+                ],
+            arguments=[urdf]
+            )
+    
+    ## TODO: Causes gazebo to crash
+    robot_localization_node = Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[
+                os.path.join(get_package_share_directory('tribot_gazebo'), 'config', 'ekf.yaml'), 
+                {'use_sim_time': LaunchConfiguration('use_sim_time')}
+            ]
+            )
+
     
     return LaunchDescription([
         LogInfo(msg=['Execute Tribot Fake Node!']),
@@ -57,14 +74,29 @@ def generate_launch_description():
         ),
 
         IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([os.path.join(
+                get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
+        ),
+
+        IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(get_package_share_directory('tribot_fake_node'), 'launch', 'rviz2.launch.py'))),
-
+        
         Node(
             package='tribot_fake_node',
             executable='tribot_fake_node',
             output='screen'),
+        
+        ##TODO: crashes, does not spawn bot
+        Node(
+            package='gazebo_ros',
+            executable='spawn_entity.py',
+            arguments=['-topic', 'robot_description'],
+            output='screen',
+        ),
 
         robot_state_publisher_node,
+        joint_state_publisher_node,
+        #robot_localization_node,
     ])
     
