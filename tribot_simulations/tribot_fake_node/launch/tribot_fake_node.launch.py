@@ -50,7 +50,6 @@ def generate_launch_description():
             )
 
 
-    ## TODO: Causes gazebo to crash
     joint_state_publisher_node = Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
@@ -83,11 +82,10 @@ def generate_launch_description():
                 ]
             )
     
-    ##TODO: crashes, does not spawn bot
     robot_spawner_node = Node(
             package='gazebo_ros',
             executable='spawn_entity.py',
-            arguments=['-topic', 'robot_description'],
+            arguments=['-topic', 'robot_description', '-entity', 'tribot'],
             output='screen',
         )
 
@@ -101,14 +99,14 @@ def generate_launch_description():
             description='Specify parameters',
         ),
 
-        #gazebo_launch,
+        gazebo_launch,
         rviz_launch,
         
         tribot_fake_node,
 
         robot_state_publisher_node,
         joint_state_publisher_node,
-        #robot_spawner_node,
+        robot_spawner_node,
         #robot_localization_node,
     ])
     

@@ -252,7 +252,7 @@
 
 
   <!-- Does not load-->
-  <!--link name="battery_link">
+  <link name="battery_link">
     <inertial>
       <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />>
       <mass value="0.001" />
@@ -289,7 +289,7 @@
       <update_rate>100</update_rate>
     </plugin>
 
-  </gazebo-->
+  </gazebo>
 
 
 </robot>
