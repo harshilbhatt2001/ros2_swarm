@@ -225,12 +225,6 @@
 
   <!--Laser Sensor-->
   <link name="laser_link">
-    <!--inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <xacro:cylinder_inertia mass="1" r="0.05" l="0.1" />
-    </inertial-->
-
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -285,8 +279,7 @@
     </sensor>
   </gazebo>
 
-
-
+  <!--Differential drive plugin-->
   <gazebo>
     <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
       <ros>
@@ -315,8 +308,7 @@
     </plugin>
   </gazebo>
 
-
-  <!-- Does not load-->
+  <!--Battery plugin-->
   <link name="battery_link">
     <inertial>
       <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />>
@@ -353,7 +345,6 @@
       <power_load>6.6</power_load>
       <update_rate>100</update_rate>
     </plugin>
-
   </gazebo>
 
 

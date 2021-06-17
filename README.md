@@ -6,7 +6,7 @@
 - [x] IMU plugin
 - [x] Differential Drive
 - [x] Joint State Publisher
-- [ ] IR sensor
+- [x] IR sensor
 - [ ] Fake node
 - [ ] tribot_drive
 - [ ] Battery Plugin
