@@ -99,7 +99,7 @@ def generate_launch_description():
             description='Specify parameters',
         ),
 
-        gazebo_launch,
+        #gazebo_launch,
         rviz_launch,
         
         tribot_fake_node,
